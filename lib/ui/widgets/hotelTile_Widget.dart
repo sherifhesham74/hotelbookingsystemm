@@ -20,7 +20,7 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
-                color: Colors.grey,
+                color: Colors.white,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: Offset(0, 1)),
