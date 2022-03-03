@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/models/cities.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/ui/screens/hotels_Screen.dart';
 
 Widget cityTileWidget(BuildContext context,City city) {
   return InkWell(
+    onTap: (){
+      Get.to(HotelsScreen(cityName: city.name));
+    },
     child: Container(
       width: MediaQuery.of(context).size.width * 0.85,
       margin: EdgeInsets.all(20),
