@@ -1,9 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
 import 'package:hotelbooking/ui/screens/home_Screen.dart';
 
 void main() {
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
+
   runApp(const MyApp());
 }
 
@@ -17,13 +23,10 @@ class MyApp extends StatelessWidget {
       title: 'HotelBooking',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        backgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.blue,
           backgroundColor: Colors.white,
-          elevation: 0
-        )
-      ),
+          appBarTheme:
+              AppBarTheme(backgroundColor: Colors.white, elevation: 0)),
       home: HomeScreen(),
     );
   }

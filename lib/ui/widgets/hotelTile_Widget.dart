@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/models/hotels.dart';
-
+import 'package:get/get.dart';
+import 'package:hotelbooking/services/ui_services.dart';
+import 'package:hotelbooking/ui/screens/hotelDetails_Screen.dart';
 Widget hotelTileWidget(BuildContext context, Hotel hotel) {
-  List<Widget> numOfStars = [];
-  int stars = hotel.stars;
-  while (stars != 0) {
-    numOfStars.add(Icon(
-      Icons.star,
-      color: Colors.amber,
-      size: 25,
-    ));
-    stars = stars - 1;
+  
+  startsDisplay(){
+    List<Widget> numOfStars = [];
+    int stars = hotel.stars;
+    while (stars != 0) {
+      numOfStars.add(Icon(
+        Icons.star,
+        color: Colors.amber,
+        size: 25,
+      ));
+      stars = stars - 1;
+    }  
+    return numOfStars;
   }
+  
+  
   return InkWell(
+    onTap: (){
+      Get.to(HotelDetailsScreen(hotel: hotel));
+    },
     child: Container(
-
       margin: EdgeInsets.all(40),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
-                color: Colors.white,
+                color: Colors.grey,
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: Offset(0, 1)),
@@ -42,7 +52,7 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: numOfStars,
+                  children: UiServices().startsDisplay(hotel.stars)
                 ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
