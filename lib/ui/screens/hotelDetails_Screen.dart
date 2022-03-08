@@ -108,10 +108,27 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
                },
                markers: markers
               ),
+            ),
+            Container(
+              margin: EdgeInsets.all(10),
+              child: Text("Reviews",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
             )
         ],
       ),
           )),
+      floatingActionButton: SizedBox(
+        width: 150,
+        height: 50,
+        child: FloatingActionButton(
+          child:  Text("Reserve"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(30))
+          ),
+          onPressed: (){
+
+          },
+        ),
+      ),
     );
   }
 }

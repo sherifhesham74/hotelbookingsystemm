@@ -64,9 +64,9 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
                   child: RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: "\$${hotel.price}",
+                        text: "EGP ${hotel.price}",
                         style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 19,
                             fontWeight: FontWeight.w500,
                             color: Colors.white)),
                     const TextSpan(
