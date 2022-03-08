@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotelbooking/services/ui_services.dart';
+import 'package:hotelbooking/ui/screens/reservation_Screen.dart';
 
 import '../../models/hotels.dart';
 
@@ -14,6 +16,7 @@ class HotelDetailsScreen extends StatefulWidget {
 
 class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
   Set<Marker> markers = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +25,9 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
       ),
       body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Container(
               child: Image.network(
                 widget.hotel.imageUrl,
@@ -97,35 +100,42 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
               width: double.infinity,
               height: 200,
               child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(widget.hotel.lat, widget.hotel.lng),
-                  zoom: 10,
-                ),
-               onMapCreated: (GoogleMapController googleMapController){
-                  setState(() {
-                    markers.add(Marker(markerId: MarkerId('1'),position: LatLng(widget.hotel.lat,widget.hotel.lng)));
-                  });
-               },
-               markers: markers
-              ),
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(widget.hotel.lat, widget.hotel.lng),
+                    zoom: 10,
+                  ),
+                  onMapCreated: (GoogleMapController googleMapController) {
+                    setState(() {
+                      markers.add(Marker(
+                          markerId: MarkerId('1'),
+                          position:
+                              LatLng(widget.hotel.lat, widget.hotel.lng)));
+                    });
+                  },
+                  markers: markers),
             ),
             Container(
               margin: EdgeInsets.all(10),
-              child: Text("Reviews",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
+              child: Text(
+                "Reviews",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             )
-        ],
-      ),
-          )),
+          ],
+        ),
+      )),
       floatingActionButton: SizedBox(
         width: 150,
         height: 50,
         child: FloatingActionButton(
-          child:  Text("Reserve"),
+          child: Text("Reserve"),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30))
-          ),
-          onPressed: (){
-
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          onPressed: () {
+            Get.to(() => ReservationScreen());
           },
         ),
       ),

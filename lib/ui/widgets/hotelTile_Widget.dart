@@ -4,22 +4,7 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/hotelDetails_Screen.dart';
 Widget hotelTileWidget(BuildContext context, Hotel hotel) {
-  
-  startsDisplay(){
-    List<Widget> numOfStars = [];
-    int stars = hotel.stars;
-    while (stars != 0) {
-      numOfStars.add(Icon(
-        Icons.star,
-        color: Colors.amber,
-        size: 25,
-      ));
-      stars = stars - 1;
-    }  
-    return numOfStars;
-  }
-  
-  
+
   return InkWell(
     onTap: (){
       Get.to(HotelDetailsScreen(hotel: hotel));
