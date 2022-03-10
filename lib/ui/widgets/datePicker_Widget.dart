@@ -7,7 +7,12 @@ Widget DatePickerWidget(
     children: [
       Text(text,style: TextStyle(fontSize: 17,color: Colors.black87,fontWeight: FontWeight.bold),),
       const SizedBox(height: 5,),
-      TextField(
+      TextFormField(
+        validator: (value){
+          if(value == ''){
+            return 'Please Fill this Field';
+          }
+        },
         readOnly: true,
         controller: controller,
         decoration: InputDecoration(

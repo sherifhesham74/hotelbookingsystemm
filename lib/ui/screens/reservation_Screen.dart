@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/ui/widgets/roomTile_Widget.dart';
 import '../widgets/datePicker_Widget.dart';
@@ -17,6 +18,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
   TextEditingController _rooms = TextEditingController();
 
   List<int> rooms = [1, 2, 3, 4];
+  int val = 0;
   int _selectedroomNumber = 1;
   final List<Room> listofRooms = [
     Room(
@@ -32,6 +34,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
         cost: 400,
         peopleCapacity: 4),
   ];
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,92 +43,142 @@ class _ReservationScreenState extends State<ReservationScreen> {
         backgroundColor: Colors.grey,
       ),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Choose your Options",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: DatePickerWidget(context, _startDate, 'Start Date'),
+        child: Form(
+          key: _formKey,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Choose your Options",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child:
+                          DatePickerWidget(context, _startDate, 'Start Date'),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                        child: DatePickerWidget(context, _endDate, 'End Date')),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Choose number of rooms',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                        width: double.infinity,
+                        height: 50,
+                        child: TextFormField(
+                          controller: _rooms,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            suffix: DropdownButton(
+                                iconEnabledColor: Colors.blueAccent,
+                                items: rooms
+                                    .map<DropdownMenuItem<String>>((item) =>
+                                        DropdownMenuItem<String>(
+                                            value: item.toString(),
+                                            child: Text(item.toString())))
+                                    .toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _rooms.text = newValue! +
+                                        (int.parse(newValue) == 1
+                                            ? ' Room'
+                                            : ' Rooms');
+                                    _selectedroomNumber = int.parse(newValue);
+                                    if (kDebugMode) {
+                                      print(_selectedroomNumber);
+                                    }
+                                  });
+                                }),
+                            hintText: '1 Room',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: listofRooms.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Stack(
+                          alignment: AlignmentDirectional.topStart,
+                          children: [
+                            RoomTileWidget(room: listofRooms[index]),
+                            Container(
+                              child: Radio(
+                                  activeColor: Colors.indigo,
+                                  value: index,
+                                  groupValue: val,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      val = int.parse(value.toString());
+                                    });
+                                  }),
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.grey,
+                                        spreadRadius: 1,
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1)),
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+                SizedBox(
+                  width: 200,
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.indigo,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        print("Done !");
+                      }
+                    },
+                    child:const Text('Complete Reservation'),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                      child: DatePickerWidget(context, _endDate, 'End Date')),
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Choose number of rooms',
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                      width: double.infinity,
-                      height: 50,
-                      child: TextField(
-                        controller: _rooms,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          suffix: DropdownButton(
-                              iconEnabledColor: Colors.blueAccent,
-                              items: rooms
-                                  .map<DropdownMenuItem<String>>((item) =>
-                                      DropdownMenuItem<String>(
-                                          value: item.toString(),
-                                          child: Text(item.toString())))
-                                  .toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _rooms.text = newValue! +
-                                      (int.parse(newValue) == 1
-                                          ? ' Room'
-                                          : ' Rooms');
-                                  _selectedroomNumber = int.parse(newValue);
-                                });
-                              }),
-                          hintText: '1 Room',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                      )),
-                ],
-              ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: listofRooms.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return RoomTileWidget(room: listofRooms[index],);
-                    }),
-              )
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

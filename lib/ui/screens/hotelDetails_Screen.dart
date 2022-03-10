@@ -131,7 +131,8 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
         width: 150,
         height: 50,
         child: FloatingActionButton(
-          child: Text("Reserve"),
+          backgroundColor: Colors.indigo,
+          child:  Text("Reserve"),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
           onPressed: () {
