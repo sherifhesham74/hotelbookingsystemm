@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/controllers/screensController.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
 import 'package:hotelbooking/ui/screens/profile_Screen.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScreensController _controller = Get.put(ScreensController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: int.parse(_controller.screenIndex.toString()),
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.grey,
         onTap:
           selectIndex,

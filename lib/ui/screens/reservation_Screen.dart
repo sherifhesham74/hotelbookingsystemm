@@ -23,7 +23,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
   TextEditingController _endDate = TextEditingController();
   TextEditingController _rooms = TextEditingController();
   ReservationsController reservationController =
-      Get.put(ReservationsController());
+      Get.find();
 
   List<int> rooms = [1, 2, 3, 4];
   int val = 0;
