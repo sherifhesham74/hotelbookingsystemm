@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/controllers/screensController.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
 import 'package:hotelbooking/ui/screens/profile_Screen.dart';
 import 'package:hotelbooking/ui/screens/bookings_Screen.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,14 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedindex = 0;
+  ScreensController _controller = Get.put(ScreensController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: bodyWidget(_selectedindex),
+      body: bodyWidget(int.parse(_controller.screenIndex.toString())),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        currentIndex: _selectedindex,
+        currentIndex: int.parse(_controller.screenIndex.toString()),
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.grey,
         onTap:
@@ -33,20 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void selectIndex(int index){
+  void selectIndex(int index) {
     setState(() {
-      _selectedindex = index;
+      _controller.screenIndex = index.obs;
     });
-    if (kDebugMode) {
-      print(_selectedindex);
-
-    }}
+  }
 
  Widget bodyWidget(int index){
-    if(_selectedindex == 0){
+    if(_controller.screenIndex == 0.obs){
       return CitiesScreen();
     }
-    else if(_selectedindex == 1){
+    else if(_controller.screenIndex == 1.obs){
       return BookingsScreen();
     }
     else{

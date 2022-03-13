@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hotelbooking/controllers/reservationsController.dart';
+import 'package:hotelbooking/models/reservations.dart';
+import 'package:hotelbooking/ui/screens/reservationDetails_Screen.dart';
 import 'package:hotelbooking/ui/widgets/roomTile_Widget.dart';
+import '../../models/hotels.dart';
 import '../widgets/datePicker_Widget.dart';
 import 'package:hotelbooking/models/rooms.dart';
 
 class ReservationScreen extends StatefulWidget {
-  const ReservationScreen({Key? key}) : super(key: key);
+  const ReservationScreen({Key? key, required this.hotel}) : super(key: key);
+  final Hotel hotel;
 
   @override
   _ReservationScreenState createState() => _ReservationScreenState();
@@ -16,6 +22,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
   TextEditingController _startDate = TextEditingController();
   TextEditingController _endDate = TextEditingController();
   TextEditingController _rooms = TextEditingController();
+  ReservationsController reservationController =
+      Get.put(ReservationsController());
 
   List<int> rooms = [1, 2, 3, 4];
   int val = 0;
@@ -168,11 +176,23 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo,
                     onPressed: () {
+                      Reservation res = Reservation(
+                          daysNumber: calculateNumofDays(
+                              _startDate.text, _endDate.text),
+                          startDate: _startDate.text,
+                          endDate: _endDate.text,
+                          roomsNumber: _selectedroomNumber,
+                          hotelName: widget.hotel.name,
+                          cost: listofRooms[val].cost *
+                              _selectedroomNumber *
+                              calculateNumofDays(
+                                  _startDate.text, _endDate.text),
+                          roomType: listofRooms[val].name);
                       if (_formKey.currentState!.validate()) {
-                        print("Done !");
+                        Get.to( ()=>ReservationDetailsScreen(reservation: res) );
                       }
                     },
-                    child:const Text('Complete Reservation'),
+                    child: const Text('Complete Reservation'),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                   ),
@@ -183,5 +203,12 @@ class _ReservationScreenState extends State<ReservationScreen> {
         ),
       ),
     );
+  }
+
+  calculateNumofDays(String startDate, String endDate) {
+    DateTime start = DateTime.parse(startDate);
+    DateTime end = DateTime.parse(endDate);
+    int difference = end.difference(start).inDays;
+    return difference;
   }
 }

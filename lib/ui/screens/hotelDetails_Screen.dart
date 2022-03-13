@@ -136,7 +136,7 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
           onPressed: () {
-            Get.to(() => ReservationScreen());
+            Get.to(() => ReservationScreen(hotel: widget.hotel,));
           },
         ),
       ),
