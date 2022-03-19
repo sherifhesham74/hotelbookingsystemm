@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
 import 'package:hotelbooking/ui/screens/home_Screen.dart';
+import 'package:hotelbooking/ui/screens/login.dart';
+import 'package:hotelbooking/ui/screens/register.dart';
 
 void main() {
   if (defaultTargetPlatform == TargetPlatform.android) {
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           appBarTheme:
               AppBarTheme(backgroundColor: Colors.white, elevation: 0)),
-      home: HomeScreen(),
+      home: Login(),
     );
   }
 }

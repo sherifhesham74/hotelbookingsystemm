@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/controllers/screensController.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
-import 'package:hotelbooking/ui/screens/profile_Screen.dart';
+import 'package:hotelbooking/ui/screens/clientProfile_Screen.dart';
 import 'package:hotelbooking/ui/screens/bookings_Screen.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScreensController _controller = Get.put(ScreensController());
+  ReservationsController _reservationsController = Get.put(ReservationsController());
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return BookingsScreen();
     }
     else{
-      return ProfileScreen();
+      return ClientProfileScreen();
     }
   }
 }
