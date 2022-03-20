@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hotelbooking/controllers/usersController.dart';
+import 'package:hotelbooking/services/shared_prefs.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
@@ -31,7 +32,7 @@ class ClientsServices {
   }
 
   clientsLogin(String email, String password) async {
-    final uri = Uri.http('192.168.1.10:45455', '/api/Users/Login',
+    final uri = Uri.http('192.168.1.10:45457', '/api/Users/Login',
         {"email": email, "password": password});
     final headers = {"Content-Type": 'application/json'};
     if (kDebugMode) {
@@ -48,6 +49,7 @@ class ClientsServices {
             return 'Email or Password invalid';
         }
         else {
+          await SharedPrefs().login(body[0]['name'], body[0]['email'], body[0]['userid'],body[0]['role']);
           return body[0]['role'];
         }
       }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/services/shared_prefs.dart';
+import 'package:get/get.dart';
+
+import 'login.dart';
 
 class ClientProfileScreen extends StatefulWidget {
   const ClientProfileScreen({Key? key}) : super(key: key);
@@ -13,38 +17,47 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(child: Container(
       margin: EdgeInsets.symmetric(horizontal: 20,vertical: 80),
-      child: Column(
+      child: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
-          TextFormField(
-            controller: nameController,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+          Column(
+            children: [
+              TextFormField(
+                controller: nameController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  labelText: "Name",
+                  suffixIcon: const Icon(Icons.person),
+                ),
+                keyboardType: TextInputType.name,
               ),
-              labelText: "Name",
-              suffixIcon: const Icon(Icons.person),
-            ),
-            keyboardType: TextInputType.name,
-          ),
-          const SizedBox(height: 20,),
-          TextFormField(
-            controller: nameController,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              labelText: "Email",
-              suffixIcon: const Icon(Icons.mail),
-            ),
-            keyboardType: TextInputType.emailAddress,
+              const SizedBox(height: 20,),
+              TextFormField(
+                controller: nameController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  labelText: "Email",
+                  suffixIcon: const Icon(Icons.mail),
+                ),
+                keyboardType: TextInputType.emailAddress,
 
+              ),
+            ],
           ),
+          RaisedButton(color: Colors.indigo,child:const Text('Logout',style: TextStyle(color: Colors.white),),onPressed: (){
+            SharedPrefs().logout();
+            Get.off(Login());
+          })
         ],
       ),
     ));

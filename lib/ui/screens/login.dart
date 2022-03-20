@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/controllers/usersController.dart';
 import 'package:hotelbooking/services/http/clients_services.dart';
 import 'package:hotelbooking/ui/screens/home_Screen.dart';
+import 'package:hotelbooking/ui/screens/hotelOwner/reservations_Screen.dart';
 import 'package:hotelbooking/ui/screens/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../services/shared_prefs.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,12 +18,28 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool password = false;
+  String role = '';
 
   final _formKey = GlobalKey<FormState>();
   UsersController _usersController = Get.put(UsersController());
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
+  checkuserrole()async{
+    String? value = await SharedPrefs().checkRole();
+    setState(() {
+      role = value!;
+    });
+    print(value);
+    if(role == 'client'){
+      Get.off(HomeScreen());
+    }
+    else if(role == 'hotel'){
+      Get.off(HotelReservationsScreen());
+    }
+    else{
+      print('here');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,16 +149,9 @@ class _LoginState extends State<Login> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(snackBar);
                         }
-                        else if(response == 'client'){
-                          Get.off(HomeScreen());
+                        else {
+                          checkuserrole();
                         }
-                        else if(response == 'hotel'){
-                          print('hotel');
-                        }
-                        else{
-                          print('admin');
-                        }
-                        print("ok");
                       }
                     }),
               ),
