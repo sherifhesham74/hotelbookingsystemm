@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/models/cities.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/ui/screens/hotels_Screen.dart';
 
+import '../../controllers/hotelsController.dart';
+
 Widget cityTileWidget(BuildContext context,City city) {
+  HotelsController _hotelsController = Get.put(HotelsController());
   return InkWell(
     onTap: (){
+      _hotelsController.getHotels(city.name);
       Get.to(HotelsScreen(cityName: city.name));
     },
     child: Container(

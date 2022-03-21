@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/controllers/hotelsController.dart';
 import 'package:hotelbooking/models/hotels.dart';
 import 'package:hotelbooking/ui/widgets/hotelTile_Widget.dart';
+import 'package:get/get.dart';
 
 class HotelsScreen extends StatefulWidget {
   const HotelsScreen({Key? key, required this.cityName}) : super(key: key);
@@ -11,6 +13,7 @@ class HotelsScreen extends StatefulWidget {
 }
 
 class _HotelsScreenState extends State<HotelsScreen> {
+  HotelsController _hotelsController = Get.find();
   List<Hotel> hotels = [
     Hotel(
         name: 'Aswan Hotel',
@@ -62,15 +65,17 @@ class _HotelsScreenState extends State<HotelsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black54,
       ),
-      body: dummyList.isNotEmpty
-          ? ListView.builder(
-              itemCount: dummyList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return hotelTileWidget(context, dummyList[index]);
-              })
-          : const Center(
-              child: Text("THERE is NO HOTELS"),
-            ),
+      body:GetBuilder<HotelsController>(builder: (_){
+        return _hotelsController.hotelsList.isNotEmpty
+        ? ListView.builder(
+            itemCount: _hotelsController.hotelsList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return hotelTileWidget(context, _hotelsController.hotelsList[index]);
+            })
+            : const Center(
+        child: CircularProgressIndicator(color: Colors.indigo,),
+        );
+      },)
     );
   }
 }

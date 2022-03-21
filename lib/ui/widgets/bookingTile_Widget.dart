@@ -13,9 +13,6 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
   @override
   Widget build(BuildContext context) {
     return   Container(
-      height: MediaQuery.of(context).orientation == Orientation.portrait
-          ? MediaQuery.of(context).size.height * 0.2
-          : 200,
       width: MediaQuery.of(context).orientation == Orientation.portrait
           ? MediaQuery.of(context).size.width
           : MediaQuery.of(context).size.width * 0.7,

@@ -10,9 +10,10 @@ import '../../models/users.dart';
 
 class ClientsServices {
   UsersController _usersController = Get.find();
+  final String mainurl = "192.168.1.10:45455";
 
   clinetsRegister(Users user) async {
-    final String url = "http://192.168.1.10:45455/api/Users";
+    final String url = "http://$mainurl/api/Users";
     var json = {
       "role": "${user.role}",
       "name": "${user.name}",
@@ -32,7 +33,7 @@ class ClientsServices {
   }
 
   clientsLogin(String email, String password) async {
-    final uri = Uri.http('192.168.1.10:45457', '/api/Users/Login',
+    final uri = Uri.http(mainurl, '/api/Users/Login',
         {"email": email, "password": password});
     final headers = {"Content-Type": 'application/json'};
     if (kDebugMode) {
@@ -46,14 +47,33 @@ class ClientsServices {
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
         if (body.isEmpty) {
-            return 'Email or Password invalid';
+          return 'Email or Password invalid';
         }
         else {
-          await SharedPrefs().login(body[0]['name'], body[0]['email'], body[0]['userid'],body[0]['role']);
+          await SharedPrefs().login(
+              body[0]['name'], body[0]['email'], body[0]['userid'],
+              body[0]['role']);
           return body[0]['role'];
         }
       }
     } catch (e) {
+      print(e);
+    }
+  }
+
+
+  getuserNamebyId(int id) async {
+    final String path = 'http://$mainurl/api/Users/$id';
+    final headers = {"Content-Type": 'application/json'};
+    try {
+      final response = await http.get(Uri.parse(path), headers: headers);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        return body['name'];
+      }
+    }
+    catch (e) {
       print(e);
     }
   }

@@ -176,19 +176,19 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo,
                     onPressed: () {
-                      Reservation res = Reservation(
-                          daysNumber: calculateNumofDays(
-                              _startDate.text, _endDate.text),
-                          startDate: _startDate.text,
-                          endDate: _endDate.text,
-                          roomsNumber: _selectedroomNumber,
-                          hotelName: widget.hotel.name,
-                          cost: listofRooms[val].cost *
-                              _selectedroomNumber *
-                              calculateNumofDays(
-                                  _startDate.text, _endDate.text),
-                          roomType: listofRooms[val].name);
                       if (_formKey.currentState!.validate()) {
+                        Reservation res = Reservation(
+                            daysNumber: calculateNumofDays(
+                                _startDate.text, _endDate.text),
+                            startDate: _startDate.text,
+                            endDate: _endDate.text,
+                            roomsNumber: _selectedroomNumber,
+                            hotelName: widget.hotel.name,
+                            cost: listofRooms[val].cost *
+                                _selectedroomNumber *
+                                calculateNumofDays(
+                                    _startDate.text, _endDate.text),
+                            roomType: listofRooms[val].name);
                         Get.to( ()=>ReservationDetailsScreen(reservation: res) );
                       }
                     },
