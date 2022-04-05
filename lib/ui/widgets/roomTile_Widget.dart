@@ -1,5 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/models/photos.dart';
 import 'package:hotelbooking/models/rooms.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:hotelbooking/controllers/roomsController.dart';
+import 'package:flutter_image/flutter_image.dart';
+import 'package:get/get.dart';
 
 class RoomTileWidget extends StatefulWidget {
   const RoomTileWidget({Key? key, required this.room}) : super(key: key);
@@ -11,7 +17,9 @@ class RoomTileWidget extends StatefulWidget {
 
 class _RoomTileWidgetState extends State<RoomTileWidget> {
   bool clicked = false;
-  bool _value = false;
+  List<Photo> photos = [];
+  RoomsController _roomsController = Get.put(RoomsController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +36,27 @@ class _RoomTileWidgetState extends State<RoomTileWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-                child: Image.network(
-              widget.room.imageUrl,
-              fit: BoxFit.fitHeight,
-            )),
+            FutureBuilder(
+                future: _roomsController.getRoomsPhotoC(widget.room.id),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    List<Photo> photos = snapshot.data!;
+                    return Expanded(
+                      child: CarouselSlider(
+                        options: CarouselOptions(),
+                        items: photos.map((image) =>
+                            Image(
+                              image: NetworkImageWithRetry((image.PhotoUrl)),))
+                            .toList()
+                      ),
+                    );
+                }
+                  else{
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                }
+
+            ),
             const SizedBox(
               width: 15,
             ),
@@ -54,16 +78,17 @@ class _RoomTileWidgetState extends State<RoomTileWidget> {
                   ),
                   RichText(
                       text: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(
-                      Icons.person,
-                      size: 14,
-                      color: Colors.indigo,
-                    )),
-                    TextSpan(
-                        text: '${widget.room.peopleCapacity} People',
-                        style: TextStyle(color: Colors.black87, fontSize: 11))
-                  ])),
+                        WidgetSpan(
+                            child: Icon(
+                              Icons.person,
+                              size: 14,
+                              color: Colors.indigo,
+                            )),
+                        TextSpan(
+                            text: '${widget.room.peopleCapacity} People',
+                            style: TextStyle(color: Colors.black87,
+                                fontSize: 11))
+                      ])),
                   const SizedBox(
                     height: 7,
                   ),
@@ -82,5 +107,9 @@ class _RoomTileWidgetState extends State<RoomTileWidget> {
       ),
 
     ]);
+  }
+
+  roomPhotos(int id) async {
+    photos = await _roomsController.getRoomsPhotoC(id);
   }
 }

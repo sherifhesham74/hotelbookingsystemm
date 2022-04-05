@@ -10,7 +10,8 @@ Widget ReviewTileWidget(Review review){
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(review.username!, style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepPurple,fontSize: 20),),
-        Text(review.description, style: TextStyle(color: Colors.black54,fontSize: 15))
+        Text(review.description, style: TextStyle(color: review.happiness=="happy"?  Colors.green : Colors.red,fontSize: 15)),
+        Divider(color: Colors.grey,)
       ],
     ),
   );

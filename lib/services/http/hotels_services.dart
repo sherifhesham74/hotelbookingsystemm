@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:hotelbooking/models/hotels.dart';
 import 'package:hotelbooking/models/reviews.dart';
+import 'package:hotelbooking/models/rooms.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -51,4 +52,22 @@ class HotelsServices{
       print(e);
     }
   }
+
+  getHotelRooms(int id)async{
+    final String path = 'http://$url/api/Rooms/Hotel/${id}';
+    http.Response response = await http.get(Uri.parse(path));
+    print(response.statusCode);
+    try{
+      if(response.statusCode == 200){
+        List<dynamic> body = jsonDecode(response.body);
+        List<Room> rooms = body.map((room) => Room.fromJson(room)).toList();
+        return rooms;
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+
 }

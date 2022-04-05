@@ -3,7 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/controllers/reservationsController.dart';
+import 'package:hotelbooking/controllers/hotelsController.dart';
+import 'package:hotelbooking/controllers/roomsController.dart';
 import 'package:hotelbooking/models/reservations.dart';
+import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/ui/screens/reservationDetails_Screen.dart';
 import 'package:hotelbooking/ui/widgets/roomTile_Widget.dart';
 import '../../models/hotels.dart';
@@ -22,26 +25,22 @@ class _ReservationScreenState extends State<ReservationScreen> {
   TextEditingController _startDate = TextEditingController();
   TextEditingController _endDate = TextEditingController();
   TextEditingController _rooms = TextEditingController();
+  HotelsController _hotelsController = Get.find();
   ReservationsController reservationController =
       Get.find();
 
-  List<int> rooms = [1, 2, 3, 4];
+   List<int> roomsNumber = [1,2,3,4];
+
   int val = 0;
   int _selectedroomNumber = 1;
-  final List<Room> listofRooms = [
-    Room(
-        name: "Standard",
-        imageUrl:
-            'https://th.bing.com/th/id/R.25b86c23a77f0e94d5e909cc1b3bceff?rik=Djcc7WwfZAnIjA&riu=http%3a%2f%2fcache.marriott.com%2fmarriottassets%2fmarriott%2fSTFCT%2fstfct-guestroom-0045-hor-clsc.jpg%3finterpolation%3dprogressive-bilinear%26&ehk=Qfi1Qy2RPsgQGGJQ%2bDLh1pnflcQlURsqEc584MAYrZI%3d&risl=&pid=ImgRaw&r=0',
-        cost: 270,
-        peopleCapacity: 2),
-    Room(
-        name: "Deluxe",
-        imageUrl:
-            'https://th.bing.com/th/id/R.28aea4f9dd03c96e50f7a2add474cf08?rik=hRk%2fMZ%2f886Kt2g&riu=http%3a%2f%2fd2e5ushqwiltxm.cloudfront.net%2fwp-content%2fuploads%2fsites%2f21%2f2016%2f06%2f21042553%2fExecutive-Room_23.jpg&ehk=MrNfToDML3o%2b5UCoiEz7vcVphQ2EfN%2f53YLJHvCJNCY%3d&risl=&pid=ImgRaw&r=0',
-        cost: 400,
-        peopleCapacity: 4),
-  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _hotelsController.getHotelRooms(widget.hotel.hotelid!);
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -110,7 +109,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                           decoration: InputDecoration(
                             suffix: DropdownButton(
                                 iconEnabledColor: Colors.blueAccent,
-                                items: rooms
+                                items: roomsNumber
                                     .map<DropdownMenuItem<String>>((item) =>
                                         DropdownMenuItem<String>(
                                             value: item.toString(),
@@ -138,38 +137,40 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: listofRooms.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Stack(
-                          alignment: AlignmentDirectional.topStart,
-                          children: [
-                            RoomTileWidget(room: listofRooms[index]),
-                            Container(
-                              child: Radio(
-                                  activeColor: Colors.indigo,
-                                  value: index,
-                                  groupValue: val,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      val = int.parse(value.toString());
-                                    });
-                                  }),
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 1)),
-                                  ],
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                          ],
-                        );
-                      }),
+                GetBuilder<HotelsController>(
+                  builder:(_)=> Expanded(
+                    child: ListView.builder(
+                        itemCount: _hotelsController.hotelRooms.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return  _hotelsController.hotelRooms.isNotEmpty ? Stack(
+                            alignment: AlignmentDirectional.topStart,
+                            children: [
+                              RoomTileWidget(room:_hotelsController.hotelRooms[index]),
+                              Container(
+                                child: Radio(
+                                    activeColor: Colors.indigo,
+                                    value: index,
+                                    groupValue: val,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        val = int.parse(value.toString());
+                                      });
+                                    }),
+                                decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.grey,
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1)),
+                                    ],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                            ],
+                          ): CircularProgressIndicator();
+                        }),
+                  ),
                 ),
                 SizedBox(
                   width: 200,
@@ -184,11 +185,11 @@ class _ReservationScreenState extends State<ReservationScreen> {
                             endDate: _endDate.text,
                             roomsNumber: _selectedroomNumber,
                             hotelName: widget.hotel.name,
-                            cost: listofRooms[val].cost *
+                            cost: _hotelsController.hotelRooms[val].cost *
                                 _selectedroomNumber *
                                 calculateNumofDays(
                                     _startDate.text, _endDate.text),
-                            roomType: listofRooms[val].name);
+                            roomType: _hotelsController.hotelRooms[val].name);
                         Get.to( ()=>ReservationDetailsScreen(reservation: res) );
                       }
                     },
@@ -211,4 +212,6 @@ class _ReservationScreenState extends State<ReservationScreen> {
     int difference = end.difference(start).inDays;
     return difference;
   }
+
+
 }
