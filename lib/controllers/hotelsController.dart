@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/models/hotels.dart';
 import 'package:hotelbooking/services/http/hotels_services.dart';
@@ -28,5 +29,10 @@ class HotelsController extends GetxController {
       hotelRooms = returnedList;
     }
     update();
+  }
+
+  getHotelName(int roomid)async{
+   String HotelName = await HotelsServices().getHotelName(roomid);
+    return HotelName;
   }
 }

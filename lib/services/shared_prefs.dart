@@ -29,4 +29,27 @@ class SharedPrefs{
     await pref.setString('role', '');
   }
 
+  Future<int> getClientId()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int? id = await pref.getInt('id');
+    return id!;
+  }
+
+  getClientName()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? name = await pref.getString('name');
+    return name!;
+  }
+
+  setClientName(String name)async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('name', name);
+  }
+
+  getClientEmail()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String? email = await pref.getString('email');
+    return email!;
+  }
+
 }

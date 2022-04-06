@@ -7,6 +7,7 @@ import 'package:hotelbooking/controllers/hotelsController.dart';
 import 'package:hotelbooking/controllers/roomsController.dart';
 import 'package:hotelbooking/models/reservations.dart';
 import 'package:hotelbooking/services/http/hotels_services.dart';
+import 'package:hotelbooking/services/shared_prefs.dart';
 import 'package:hotelbooking/ui/screens/reservationDetails_Screen.dart';
 import 'package:hotelbooking/ui/widgets/roomTile_Widget.dart';
 import '../../models/hotels.dart';
@@ -176,7 +177,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   width: 200,
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo,
-                    onPressed: () {
+                    onPressed: () async{
                       if (_formKey.currentState!.validate()) {
                         Reservation res = Reservation(
                             daysNumber: calculateNumofDays(
@@ -184,13 +185,14 @@ class _ReservationScreenState extends State<ReservationScreen> {
                             startDate: _startDate.text,
                             endDate: _endDate.text,
                             roomsNumber: _selectedroomNumber,
-                            hotelName: widget.hotel.name,
+                            hotelid: widget.hotel.hotelid!,
+                            clientid: await SharedPrefs().getClientId(),
                             cost: _hotelsController.hotelRooms[val].cost *
                                 _selectedroomNumber *
                                 calculateNumofDays(
                                     _startDate.text, _endDate.text),
-                            roomType: _hotelsController.hotelRooms[val].name);
-                        Get.to( ()=>ReservationDetailsScreen(reservation: res) );
+                            roomType: _hotelsController.hotelRooms[val].name, roomid: _hotelsController.hotelRooms[val].id);
+                        Get.to( ()=>ReservationDetailsScreen(reservation: res,hotel : widget.hotel, room: _hotelsController.hotelRooms[val]) );
                       }
                     },
                     child: const Text('Complete Reservation'),

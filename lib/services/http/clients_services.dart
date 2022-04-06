@@ -5,6 +5,7 @@ import 'package:hotelbooking/controllers/usersController.dart';
 import 'package:hotelbooking/services/shared_prefs.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/users.dart';
 
@@ -33,8 +34,8 @@ class ClientsServices {
   }
 
   clientsLogin(String email, String password) async {
-    final uri = Uri.http(mainurl, '/api/Users/Login',
-        {"email": email, "password": password});
+    final uri = Uri.http(
+        mainurl, '/api/Users/Login', {"email": email, "password": password});
     final headers = {"Content-Type": 'application/json'};
     if (kDebugMode) {
       print(uri);
@@ -48,11 +49,9 @@ class ClientsServices {
         List<dynamic> body = jsonDecode(response.body);
         if (body.isEmpty) {
           return 'Email or Password invalid';
-        }
-        else {
-          await SharedPrefs().login(
-              body[0]['name'], body[0]['email'], body[0]['userid'],
-              body[0]['role']);
+        } else {
+          await SharedPrefs().login(body[0]['name'], body[0]['email'],
+              body[0]['userid'], body[0]['role']);
           return body[0]['role'];
         }
       }
@@ -60,7 +59,6 @@ class ClientsServices {
       print(e);
     }
   }
-
 
   getuserNamebyId(int id) async {
     final String path = 'http://$mainurl/api/Users/$id';
@@ -72,8 +70,29 @@ class ClientsServices {
         Map<String, dynamic> body = jsonDecode(response.body);
         return body['name'];
       }
+    } catch (e) {
+      print(e);
     }
-    catch (e) {
+  }
+
+  changeClientName(int userid, String name) async {
+    final String path = 'http://$mainurl/api/Users/$userid';
+    try {
+      print('here');
+      Map<String, dynamic> body = {"name": name, "userid" : userid};
+      String encodedbody = jsonEncode(body);
+      final response = await http.put(
+        Uri.parse(path),
+        body: encodedbody,
+        headers: {"content-type":"application/json"},
+        encoding: Encoding.getByName("utf-8"),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        String newName = await SharedPrefs().setClientName(name);
+        return newName;
+      }
+    } catch (e) {
       print(e);
     }
   }

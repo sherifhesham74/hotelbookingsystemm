@@ -3,14 +3,19 @@ import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/controllers/screensController.dart';
 import 'package:hotelbooking/models/reservations.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/models/rooms.dart';
+import 'package:hotelbooking/services/http/reservations_services.dart';
 import 'package:hotelbooking/ui/screens/bookings_Screen.dart';
 
+import '../../models/hotels.dart';
 import 'home_Screen.dart';
 
 class ReservationDetailsScreen extends StatefulWidget {
-  const ReservationDetailsScreen({Key? key, required this.reservation})
+  const ReservationDetailsScreen({Key? key, required this.reservation,required this.hotel,required this.room})
       : super(key: key);
   final Reservation reservation;
+  final Hotel hotel;
+  final Room room;
 
   @override
   _ReservationDetailsScreenState createState() =>
@@ -44,7 +49,7 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hotel : ' + widget.reservation.hotelName,
+                      'Hotel : ' + widget.hotel.name,
                       style: style,
                     ),
                     const SizedBox(
@@ -65,7 +70,7 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                       height: 15,
                     ),
                     Text(
-                      'Room Type : ' + widget.reservation.roomType,
+                      'Room Type : ' + widget.room.name,
                       style: style,
                     ),
                     const SizedBox(
@@ -97,7 +102,8 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                           style: TextStyle(color: Colors.white))),
                   RaisedButton(
                     onPressed: () {
-                      _controller.addReservation(widget.reservation);
+                     // _controller.addReservation(widget.reservation);
+                      ReservationsServices().postReservations(widget.reservation);
                       _screensController.navigateToBookings();
                       Get.offAll(() => HomeScreen());
                     },
