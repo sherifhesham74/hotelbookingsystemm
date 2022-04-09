@@ -50,8 +50,16 @@ class ClientsServices {
         if (body.isEmpty) {
           return 'Email or Password invalid';
         } else {
-          await SharedPrefs().login(body[0]['name'], body[0]['email'],
-              body[0]['userid'], body[0]['role']);
+          await SharedPrefs().login(
+            body[0]['name'],
+            body[0]['email'],
+            body[0]['userid'],
+            body[0]['role'],
+            body[0]['password'],
+            body[0]['photo'],
+            body[0]['isdeleted'],
+            body[0]['address'],
+          );
           return body[0]['role'];
         }
       }
@@ -75,25 +83,67 @@ class ClientsServices {
     }
   }
 
-  changeClientName(int userid, String name) async {
+  changeClientName(int userid, String name, String email, String password,
+      String address, String photo, bool isdeleted, String role) async {
     final String path = 'http://$mainurl/api/Users/$userid';
     try {
-      print('here');
-      Map<String, dynamic> body = {"name": name, "userid" : userid};
+
+      Map<String, dynamic> body = {
+        "name": name,
+        "userid": userid,
+        "email": email,
+        "password": password,
+        "address": address,
+        "photo": photo,
+        "role": role,
+        "isdeleted": isdeleted
+      };
       String encodedbody = jsonEncode(body);
       final response = await http.put(
         Uri.parse(path),
         body: encodedbody,
-        headers: {"content-type":"application/json"},
+        headers: {"content-type": "application/json"},
         encoding: Encoding.getByName("utf-8"),
       );
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        String newName = await SharedPrefs().setClientName(name);
-        return newName;
-      }
+      print(name);
+      String newName = await SharedPrefs().setClientName(name);
+      print(newName);
+      return newName;
     } catch (e) {
       print(e);
     }
   }
+
+
+  changeClientPhoto(int userid, String name, String email, String password,
+      String address, String photo, bool isdeleted, String role) async {
+    final String path = 'http://$mainurl/api/Users/$userid';
+    try {
+
+      Map<String, dynamic> body = {
+        "name": name,
+        "userid": userid,
+        "email": email,
+        "password": password,
+        "address": address,
+        "photo": photo,
+        "role": role,
+        "isdeleted": isdeleted
+      };
+      String encodedbody = jsonEncode(body);
+      final response = await http.put(
+        Uri.parse(path),
+        body: encodedbody,
+        headers: {"content-type": "application/json"},
+        encoding: Encoding.getByName("utf-8"),
+      );
+      print(photo);
+      String newPhoto = await SharedPrefs().setClientPhoto(photo);
+      print(newPhoto);
+      return newPhoto;
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }

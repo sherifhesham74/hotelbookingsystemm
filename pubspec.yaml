@@ -39,6 +39,7 @@ dependencies:
   flutter_image: ^4.1.0
   intl:
   get:
+  image_picker:
   http:
   shared_preferences:
 
