@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/controllers/hotelsController.dart';
+import 'package:hotelbooking/controllers/reviewsController.dart';
 import 'package:hotelbooking/models/hotels.dart';
 import 'package:get/get.dart';
+import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/hotelDetails_Screen.dart';
 Widget hotelTileWidget(BuildContext context, Hotel hotel) {
 
+ ReviewsController _reviewsController = Get.put(ReviewsController());
   return InkWell(
     onTap: (){
+      _reviewsController.getHotelReviews(hotel.hotelid!);
       Get.to(HotelDetailsScreen(hotel: hotel));
     },
     child: Container(
@@ -29,7 +34,7 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               child: Image.network(
-                hotel.imageUrl,
+                'https://th.bing.com/th/id/R.8d28fda3b2e5cfc1f6019fcbae29f6d0?rik=0LyWuVZk3lVqiw&pid=ImgRaw&r=0',
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -37,7 +42,7 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: UiServices().startsDisplay(hotel.stars)
+                  children: UiServices().startsDisplay(5)
                 ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
