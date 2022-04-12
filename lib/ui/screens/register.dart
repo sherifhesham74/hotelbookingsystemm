@@ -178,7 +178,7 @@ class _RegisterState extends State<Register> {
                         padding: MaterialStateProperty.all(EdgeInsets.all(14)),
                       ),
                       child: Text(
-                        "${_usersController.userExist.toString()}",
+                        "Register",
                         style: TextStyle(fontSize: 14, color: Colors.white),
                       ),
                       onPressed: () async{

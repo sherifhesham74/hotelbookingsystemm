@@ -24,6 +24,8 @@ class RoomsServices{
     }
   }
 
+
+
   getHotelId(int id) async{
     String path = "http://$url/api/Rooms/$id";
     http.Response response = await http.get(Uri.parse(path));
@@ -37,4 +39,27 @@ class RoomsServices{
       print(e);
     }
   }
+
+  addRoom(double cost,String name, int hotelid)async{
+    String path = "http://$url/api/Rooms";
+
+    var json = {
+      "hotelid" : hotelid,
+      "type" : name,
+      "cost" : cost,
+      "time" : ""
+    };
+    var body = jsonEncode(json);
+    http.Response response = await http.post(Uri.parse(path),body: body,headers: {"Content-Type": "application/json"});
+    if(response.statusCode == 200){
+      print('done');
+      Map<String, dynamic> body = jsonDecode(response.body);
+      return body['roomid'];
+    }
+  }
+
+
+  // addRoomImage(String path)async{
+  //   String path = "http://$url/api/Rooms/$id";
+  // }
 }

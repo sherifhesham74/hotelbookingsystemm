@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/hotelDetails_Screen.dart';
+import 'dart:io';
 Widget hotelTileWidget(BuildContext context, Hotel hotel) {
 
  ReviewsController _reviewsController = Get.put(ReviewsController());
@@ -33,9 +34,11 @@ Widget hotelTileWidget(BuildContext context, Hotel hotel) {
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              child: Image.network(
-                'https://th.bing.com/th/id/R.8d28fda3b2e5cfc1f6019fcbae29f6d0?rik=0LyWuVZk3lVqiw&pid=ImgRaw&r=0',
-                fit: BoxFit.fitWidth,
+              child: Image.file(
+                File.fromUri(Uri.parse(
+                    hotel.imageUrl )),
+
+                fit: BoxFit.fill,
               ),
             ),
             Row(

@@ -59,15 +59,23 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   alignment: AlignmentDirectional.bottomEnd,
                   children: [
                     FutureBuilder(
-                      future: getClientImage(),
+                      future: UiServices().getClientImage(),
                       builder:(BuildContext context, AsyncSnapshot snapshot){
                         if(snapshot.hasData){
                           String path = snapshot.data;
-                          return ClipRRect(
+                          return path != "photo" ? ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                             child: Image.file(
                               File.fromUri(Uri.parse(
                                  path )),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.fill,
+                            ),
+                          ) : ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            child: Image.network(
+                              "https://irisvision.com/wp-content/uploads/2019/01/no-profile-1-1024x1024.png",
                               width: 100,
                               height: 100,
                               fit: BoxFit.fill,
@@ -146,7 +154,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                 ),
                 onPressed: () {
                   if (nameController.text.isNotEmpty) {
-                    setNewName(nameController.text);
+                    SharedPrefs().setNewName(nameController.text);
                   }
                 }),
             const SizedBox(
@@ -179,10 +187,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
     });
   }
 
-  getClientImage()async{
-    String returnedphoto = await SharedPrefs().getClientPhoto();
-    return returnedphoto;
-  }
+
 
   setNewName(String name) async {
     int userid = await SharedPrefs().getClientId();

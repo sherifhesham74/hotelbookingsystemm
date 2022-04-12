@@ -46,4 +46,19 @@ class UiServices{
     String path = await UiServices().changeClientImage();
     return path;
   }
+  getClientImage()async{
+    String returnedphoto = await SharedPrefs().getClientPhoto();
+    return returnedphoto;
+  }
+
+
+  chooseRoomImage()async{
+    final ImagePicker _picker = ImagePicker();
+    String selectedImage = '';
+    XFile? galleryFile = await _picker.pickImage(source: ImageSource.gallery);
+    selectedImage = galleryFile!.path;
+
+    print(selectedImage);
+    return selectedImage;
+  }
 }

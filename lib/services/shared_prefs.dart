@@ -1,6 +1,8 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'http/clients_services.dart';
+
 class SharedPrefs{
 
   login(String name,String email,int id,String role, String password, String photo, bool isdeleted, String address)async{
@@ -38,6 +40,8 @@ class SharedPrefs{
     int? id = await pref.getInt('id');
     return id!;
   }
+
+
 
   getClientName()async{
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -91,6 +95,19 @@ class SharedPrefs{
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? role = await pref.getString('role');
     return role!;
+  }
+
+  setNewName(String name) async {
+    int userid = await SharedPrefs().getClientId();
+    String photo = await SharedPrefs().getClientPhoto();
+    String address = await SharedPrefs().getClientAddress();
+    String password = await SharedPrefs().getClientPassword();
+    bool isdeleted = await SharedPrefs().getClientisDeleted();
+    String role = await SharedPrefs().getClientRole();
+    String email = await SharedPrefs().getClientEmail();
+    String newName = await ClientsServices().changeClientName(
+        userid, name, email, password, address, photo, isdeleted, role);
+    await SharedPrefs().setClientName(name);
   }
 
 }

@@ -10,6 +10,7 @@ AlertDialogWidget(BuildContext context){
 
       actions: <Widget>[
         RaisedButton(onPressed: (){
+          Navigator.pop(context);
           UiServices().setNewImage();
         },child: const Text('Gallery'),),
       ],

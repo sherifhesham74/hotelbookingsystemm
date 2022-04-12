@@ -37,6 +37,7 @@ dependencies:
   google_maps_flutter: ^2.1.2
   carousel_slider: ^4.0.0
   flutter_image: ^4.1.0
+  date_picker_timeline:
   intl:
   get:
   image_picker:

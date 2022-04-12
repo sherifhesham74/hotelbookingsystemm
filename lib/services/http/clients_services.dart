@@ -21,12 +21,16 @@ class ClientsServices {
       "password": "${user.password}",
       "email": '${user.email}',
       "photo": '${user.photo}',
-      "address": "${user.address}"
+      "address": "${user.address}",
+      "phone" : "0",
+      "lat" : 0,
+      "lng" : 0
     };
     var body = jsonEncode(json);
     try {
       http.Response response = await http.post(Uri.parse(url),
           body: body, headers: {"Content-Type": "application/json"});
+      print(response.statusCode);
       var responseJson = jsonDecode(response.body);
     } catch (e) {
       _usersController.userExist = true.obs;
