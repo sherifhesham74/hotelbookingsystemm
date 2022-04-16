@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:hotelbooking/models/hotels.dart';
+import 'package:hotelbooking/models/reservations.dart';
 import 'package:hotelbooking/models/reviews.dart';
 import 'package:hotelbooking/models/rooms.dart';
 import 'package:hotelbooking/services/http/clients_services.dart';
@@ -91,6 +92,17 @@ class HotelsServices{
     int hotelid =  await RoomsServices().getHotelId(id);
     String hotelName = await ClientsServices().getuserNamebyId(hotelid);
     return hotelName;
+  }
+
+  getHotelReservations(int hotelid)async{
+    final String path = 'http://$url/api/Reservations/hotel/$hotelid';
+    http.Response response = await http.get(Uri.parse(path));
+    if(response.statusCode == 200){
+      List<dynamic> body = jsonDecode(response.body);
+      List<Reservation> reservations = body.map((reservation) => Reservation.fromjson(reservation)).toList();
+      return reservations;
+    }
+
   }
 
 }

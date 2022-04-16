@@ -48,7 +48,7 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                   GetBuilder<ReservationsController>(
                     builder: (_) => FutureBuilder(
                         future: _hotelsController
-                            .getHotelName(widget.reservation.roomid),
+                            .getHotelName(widget.reservation.roomid!),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData) {
@@ -101,7 +101,7 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                               style: TextStyle(color: Colors.indigo),
                             ),
                             onPressed: () async{
-                              int hotelid = await RoomsServices().getHotelId(widget.reservation.roomid);
+                              int hotelid = await RoomsServices().getHotelId(widget.reservation.roomid!);
                               int clientid= await SharedPrefs().getClientId();
                               Get.to(()=>HotelReviewScreen(clientid: clientid, hotelid: hotelid));
                             }),
@@ -119,11 +119,11 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
   }
 
  Widget checkCancelation(){
-    if(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate).add(Duration(days: 90)).isAfter(DateTime.now())){
+    if(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(Duration(days: 90)).isAfter(DateTime.now())){
       print('start date is');
-      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate));
+      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!));
       print(widget.reservation.startDate);
-      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.endDate));
+      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.endDate!));
      return RaisedButton(
 
           color: Colors.red,

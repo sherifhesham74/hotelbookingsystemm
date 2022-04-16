@@ -153,6 +153,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
+                  getClientInfo();
                   if (nameController.text.isNotEmpty) {
                     SharedPrefs().setNewName(nameController.text);
                   }

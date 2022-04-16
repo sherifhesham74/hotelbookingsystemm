@@ -56,14 +56,14 @@ class _ReservationDetailsScreenState extends State<ReservationDetailsScreen> {
                       height: 15,
                     ),
                     Text(
-                      'Start Date : ' + widget.reservation.startDate,
+                      'Start Date : ' + widget.reservation.startDate!,
                       style: style,
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     Text(
-                      'End Date : ' + widget.reservation.endDate,
+                      'End Date : ' + widget.reservation.endDate!,
                       style: style,
                     ),
                     const SizedBox(

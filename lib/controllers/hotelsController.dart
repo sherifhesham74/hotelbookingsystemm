@@ -9,6 +9,7 @@ class HotelsController extends GetxController {
   List<Hotel> hotelsList = [];
   List<Room> hotelRooms = [];
 
+
   getHotels(String city) async {
     List<Hotel> returnedList = await HotelsServices().getHotelByCity(city);
     if (returnedList.isEmpty) {

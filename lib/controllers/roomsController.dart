@@ -6,6 +6,7 @@ import '../models/photos.dart';
 class RoomsController extends GetxController{
 
 
+
  getRoomsPhotoC(int id)async{
    List<Photo> photosList = [];
    List<Photo> returnedList = await RoomsServices().getRoomPhotos(id);
@@ -19,4 +20,15 @@ class RoomsController extends GetxController{
    }
    update();
  }
+
+ chooseNewRoomImage(int roomid,int photoid, String newpath)async{
+   await RoomsServices().changeRoomPhoto(newpath, roomid, photoid);
+
+ }
+
+ deleteRoomC(int roomid)async{
+   await RoomsServices().deleteRoom(roomid);
+   update();
+ }
+
 }

@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:hotelbooking/controllers/roomsController.dart';
 import 'package:flutter_image/flutter_image.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class RoomTileWidget extends StatefulWidget {
   const RoomTileWidget({Key? key, required this.room}) : super(key: key);
@@ -45,8 +46,10 @@ class _RoomTileWidgetState extends State<RoomTileWidget> {
                       child: CarouselSlider(
                         options: CarouselOptions(),
                         items: photos.map((image) =>
-                            Image(
-                              image: NetworkImageWithRetry((image.PhotoUrl)),))
+                            Image.file(
+                              File.fromUri(Uri.parse(image.PhotoUrl))
+                              //image: Image.file(File),
+                            ))
                             .toList()
                       ),
                     );

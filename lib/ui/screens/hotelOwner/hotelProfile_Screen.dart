@@ -3,13 +3,17 @@ import 'package:get/get.dart';
 import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/clientProfile_Screen.dart';
+import 'package:hotelbooking/ui/screens/hotelOwner/editRoom_Screen.dart';
 
 import '../../../controllers/hotelsController.dart';
+import '../../../controllers/roomsController.dart';
 import '../../../services/shared_prefs.dart';
 import '../../widgets/alertDialog_Widget.dart';
 import '../../widgets/roomTile_Widget.dart';
 import '../login.dart';
 import 'dart:io';
+
+import 'addRoom_screen.dart';
 
 class HotelProfileScreen extends StatefulWidget {
   const HotelProfileScreen({Key? key, required this.hotelid}) : super(key: key);
@@ -22,6 +26,7 @@ class HotelProfileScreen extends StatefulWidget {
 class _HotelProfileScreenState extends State<HotelProfileScreen> {
   TextEditingController hotelNameController = TextEditingController();
   HotelsController _hotelsController = Get.put(HotelsController());
+  RoomsController _roomsController = Get.put(RoomsController());
   String name = '';
 
   @override
@@ -54,11 +59,13 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
             ),
             ListTile(
               title: const Text('Add Room'),
-              onTap: () {
+              onTap: (){
+
+                Navigator.pop(context);
+                Get.to(AddRoomScreen());
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -178,31 +185,58 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
                       itemCount: _hotelsController.hotelRooms.length,
                       itemBuilder: (BuildContext context, int index) {
                         return _hotelsController.hotelRooms.isNotEmpty
-                            ? Stack(
-                                alignment: AlignmentDirectional.topStart,
-                                children: [
-                                  RoomTileWidget(
-                                      room:
-                                          _hotelsController.hotelRooms[index]),
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () {},
+                            ?  Stack(
+                                  alignment: AlignmentDirectional.topStart,
+                                  children: [
+                                    Stack(
+                                      alignment: AlignmentDirectional.topEnd,
+                                      children: [
+                                        RoomTileWidget(
+                                            room:
+                                                _hotelsController.hotelRooms[index]),
+                                        Container(
+                                          child: IconButton(
+                                            icon: Icon(Icons.delete,color: Colors.white,),
+                                            onPressed: () async{
+                                               _roomsController.deleteRoomC(_hotelsController.hotelRooms[index].id);
+                                            },
+                                          ),
+                                          decoration: BoxDecoration(
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Colors.grey,
+                                                    spreadRadius: 1,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 1)),
+                                              ],
+                                              color: Colors.red,
+                                              borderRadius:
+                                              BorderRadius.circular(10)),
+                                        ),
+                                      ],
                                     ),
-                                    decoration: BoxDecoration(
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color: Colors.grey,
-                                              spreadRadius: 1,
-                                              blurRadius: 5,
-                                              offset: Offset(0, 1)),
-                                        ],
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                  ),
-                                ],
-                              )
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () {
+                                          Get.to(()=>EditRoomScreen(room: _hotelsController.hotelRooms[index]));
+                                        },
+                                      ),
+                                      decoration: BoxDecoration(
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                color: Colors.grey,
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 1)),
+                                          ],
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                    ),
+                                  ],
+                                )
+
                             : CircularProgressIndicator();
                       }),
                 ),
@@ -215,7 +249,8 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
                 width: 200,
                 child: FloatingActionButton(
                   backgroundColor: Colors.indigo,
-                  onPressed: () {
+                  onPressed: ()async {
+                    await _hotelsController.getHotelRooms(widget.hotelid);
                     if (hotelNameController.text.isNotEmpty) {
                       SharedPrefs().setNewName(hotelNameController.text);
                     }

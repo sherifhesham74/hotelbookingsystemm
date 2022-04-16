@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hotelbooking/services/http/rooms_services.dart';
 import 'package:hotelbooking/services/shared_prefs.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -52,13 +53,25 @@ class UiServices{
   }
 
 
-  chooseRoomImage()async{
+  chooseRoomImage(int roomid)async{
     final ImagePicker _picker = ImagePicker();
     String selectedImage = '';
     XFile? galleryFile = await _picker.pickImage(source: ImageSource.gallery);
     selectedImage = galleryFile!.path;
+    await RoomsServices().addRoomImage(roomid, selectedImage);
+    print('ui services');
+    return selectedImage;
 
+  }
+
+  updateRoomImage(int roomid)async{
+    final ImagePicker _picker = ImagePicker();
+    String selectedImage = '';
+    XFile? galleryFile = await _picker.pickImage(source: ImageSource.gallery);
+    selectedImage = galleryFile!.path;
+    print('ui services');
     print(selectedImage);
     return selectedImage;
+
   }
 }
