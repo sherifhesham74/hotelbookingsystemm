@@ -4,6 +4,7 @@ import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/models/reservations.dart';
 import 'package:hotelbooking/ui/screens/hotelOwner/hotelProfile_Screen.dart';
 import 'package:hotelbooking/ui/widgets/bookingTile_Widget.dart';
+import 'package:hotelbooking/ui/widgets/hotelReservation_Tile.dart';
 import '../../../controllers/hotelsController.dart';
 import '../../../services/shared_prefs.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
@@ -51,7 +52,7 @@ class _HotelReservationsScreenState extends State<HotelReservationsScreen> {
                       itemBuilder: (BuildContext context, int index){
                         Reservation res = _reservationsController.hotelreservations[index];
                         if(res.startDate == DateFormat("yyyy-mm-dd").parse(_selectedate.toString()).add(Duration(days: 90)).toString().substring(0, 10)){
-                          return BookingTileWidget(reservation: res);
+                          return HotelReservationTile(reservation: res);
                          }
                          else{
                            return SizedBox(height: 0,);

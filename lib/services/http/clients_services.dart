@@ -11,7 +11,7 @@ import '../../models/users.dart';
 
 class ClientsServices {
   UsersController _usersController = Get.find();
-  final String mainurl = "192.168.1.10:45457";
+  final String mainurl = "192.168.1.10:45455";
 
   clinetsRegister(Users user) async {
     final String url = "http://$mainurl/api/Users";

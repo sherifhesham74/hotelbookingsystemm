@@ -20,19 +20,30 @@ class BookingTileWidget extends StatefulWidget {
 
 class _BookingTileWidgetState extends State<BookingTileWidget> {
   HotelsController _hotelsController = Get.find();
-  ReservationsController _reservationsController = Get.put(ReservationsController());
+  ReservationsController _reservationsController = Get.put(
+      ReservationsController());
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      width: MediaQuery.of(context).orientation == Orientation.portrait
-          ? MediaQuery.of(context).size.width
-          : MediaQuery.of(context).size.width * 0.7,
+
+      width: MediaQuery
+          .of(context)
+          .orientation == Orientation.portrait
+          ? MediaQuery
+          .of(context)
+          .size
+          .width
+          : MediaQuery
+          .of(context)
+          .size
+          .width * 0.7,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       padding: EdgeInsets.symmetric(
           horizontal: 10,
-          vertical: MediaQuery.of(context).orientation == Orientation.portrait
+          vertical: MediaQuery
+              .of(context)
+              .orientation == Orientation.portrait
               ? 20
               : 0),
       decoration: BoxDecoration(
@@ -46,23 +57,25 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GetBuilder<ReservationsController>(
-                    builder: (_) => FutureBuilder(
-                        future: _hotelsController
-                            .getHotelName(widget.reservation.roomid!),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            String hotelname = snapshot.data!;
-                            return Text(
-                              '${hotelname}',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w500),
-                            );
-                          }
-                          return CircularProgressIndicator(color: Colors.white,);
-                        }),
+                    builder: (_) =>
+                        FutureBuilder(
+                            future: _hotelsController
+                                .getHotelName(widget.reservation.roomid!),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                String hotelname = snapshot.data!;
+                                return Text(
+                                  '${hotelname}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w500),
+                                );
+                              }
+                              return CircularProgressIndicator(color: Colors
+                                  .white,);
+                            }),
                   ),
                   const SizedBox(
                     height: 10,
@@ -77,7 +90,8 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                         width: 5,
                       ),
                       Text(
-                          '${widget.reservation.startDate}  To  ${widget.reservation.endDate}',
+                          '${widget.reservation.startDate}  To  ${widget
+                              .reservation.endDate}',
                           style: TextStyle(color: Colors.white)),
                     ],
                   ),
@@ -85,26 +99,24 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                     height: 20,
                   ),
 
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Text(
+                  Text(
                     'Cost : ${widget.reservation.cost} EGP',
                     style: TextStyle(color: Colors.white),
-                  ))),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Rooms Number : ${widget.reservation.roomsNumber}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      RaisedButton(
-                            color: Colors.white,
-                            child: const Text(
-                              'Review',
-                              style: TextStyle(color: Colors.indigo),
-                            ),
-                            onPressed: () async{
-                              int hotelid = await RoomsServices().getHotelId(widget.reservation.roomid!);
-                              int clientid= await SharedPrefs().getClientId();
-                              Get.to(()=>HotelReviewScreen(clientid: clientid, hotelid: hotelid));
-                            }),
+
                       checkCancelation()
 
                     ],
@@ -118,25 +130,28 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
     );
   }
 
- Widget checkCancelation(){
-    if(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(Duration(days: 90)).isAfter(DateTime.now())){
+  Widget checkCancelation() {
+    if (DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(
+        Duration(days: 90)).isAfter(DateTime.now())) {
       print('start date is');
       print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!));
       print(widget.reservation.startDate);
       print(DateFormat("yyyy-mm-dd").parse(widget.reservation.endDate!));
-     return RaisedButton(
+      return RaisedButton(
 
           color: Colors.red,
           child: const Text(
             'Cancel',
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: (){
-             _reservationsController.cancelReservation(widget.reservation.reservationid!);
-          }) ;
+          onPressed: () {
+            _reservationsController.cancelReservation(
+                widget.reservation.reservationid!);
+          });
     }
-    else{
-      return const Text("no cancelation",style: TextStyle(color: Colors.white),);
+    else {
+      return const Text(
+        "no cancelation", style: TextStyle(color: Colors.white),);
     }
   }
 }

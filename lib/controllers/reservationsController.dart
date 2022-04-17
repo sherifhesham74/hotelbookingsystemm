@@ -38,4 +38,10 @@ class ReservationsController extends GetxController{
    Future<int> clientid =  SharedPrefs().getClientId();
    getReservation(clientid);
  }
+
+  cancelReservationByHotel(int reservationid)async{
+    await ReservationsServices().cancelReservation(reservationid);
+    Future<int> clientid =  SharedPrefs().getClientId();
+    getHotelReservation(clientid);
+  }
 }

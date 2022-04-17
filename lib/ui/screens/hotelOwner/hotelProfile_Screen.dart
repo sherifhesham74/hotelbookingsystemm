@@ -4,6 +4,10 @@ import 'package:hotelbooking/controllers/reservationsController.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/clientProfile_Screen.dart';
 import 'package:hotelbooking/ui/screens/hotelOwner/editRoom_Screen.dart';
+import 'package:hotelbooking/ui/screens/hotelOwner/hotelReviews_Screen.dart';
+import 'package:hotelbooking/ui/screens/hotelReview_Screen.dart';
+import 'package:hotelbooking/ui/screens/reservation_Screen.dart';
+import 'package:hotelbooking/ui/screens/hotelOwner/reservations_Screen.dart';
 
 import '../../../controllers/hotelsController.dart';
 import '../../../controllers/roomsController.dart';
@@ -43,7 +47,7 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Drawer(
+      drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
@@ -69,6 +73,15 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
               },
             ),
             ListTile(
+              title: const Text('Reviews'),
+              onTap: () async{
+                // Update the state of the app
+                Navigator.pop(context);
+                Get.to(()=>HotelReviewsScreenH());
+                // Then close the drawer
+              },
+            ),
+            ListTile(
               title: const Text('Logout'),
               onTap: () async{
                 // Update the state of the app
@@ -82,6 +95,9 @@ class _HotelProfileScreenState extends State<HotelProfileScreen> {
         ),
       ),
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed:()=> Get.off(HotelReservationsScreen()), icon: Icon(Icons.arrow_back))
+        ],
         backgroundColor: Colors.grey,
       ),
       body: SafeArea(
