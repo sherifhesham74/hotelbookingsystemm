@@ -1,6 +1,11 @@
 # hotelbooking
 
-A new Flutter application.
+A hotel booking moblie application using Flutter
+-Getx
+-Shared Preferences
+-Google maps
+-Image Picker
+-working by http to handle .net api data
 
 ## Getting Started
 
