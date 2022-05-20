@@ -116,7 +116,20 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
+                      RaisedButton(
+                          color: Colors.white,
+                          child: const Text(
+                            'Review',
+                            style: TextStyle(color: Colors.indigo),
+                          ),
+                          onPressed: () async {
+                            int hotelid = await RoomsServices().getHotelId(
+                                widget.reservation.roomid!);
+                            int clientid = await SharedPrefs().getClientId();
+                            Get.to(() =>
+                                HotelReviewScreen(
+                                    clientid: clientid, hotelid: hotelid));
+                          }),
                       checkCancelation()
 
                     ],
