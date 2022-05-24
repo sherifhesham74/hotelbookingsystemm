@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotelbooking/controllers/reviewsController.dart';
+import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/reservation_Screen.dart';
 
 import '../../models/hotels.dart';
+import '../../models/reviews.dart';
 import '../widgets/reviewTile_Widget.dart';
 
 class HotelDetailsScreen extends StatefulWidget {
@@ -18,6 +21,8 @@ class HotelDetailsScreen extends StatefulWidget {
 
 class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
   Set<Marker> markers = {};
+
+  bool rev = true;
   ReviewsController _reviewsController = Get.put(ReviewsController());
 
   @override
@@ -59,46 +64,11 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 30),
                   ),
-                  Row(
-                    children: UiServices().startsDisplay(5),
-                  )
+
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: Offset(1, 0)),
-              ], color: Colors.white),
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Price for 1 Night',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'EGP ${widget.hotel.price}',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
+
             Container(
               width: double.infinity,
               height: 200,
@@ -116,29 +86,85 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
                   },
                   markers: markers),
             ),
-            Container(
-              margin: EdgeInsets.all(10),
-              child: Text(
-                "Reviews",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
+            Center(
+              child: Container(
+                margin: EdgeInsets.all(10),
+                child: Text(
+                  "Reviews",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
               ),
             ),
-            GetBuilder<ReviewsController>(builder:(_){
-              return _reviewsController.reviewsList.isNotEmpty
-                  ? ListView.builder(
-                shrinkWrap: true,
-                  itemCount: _reviewsController.reviewsList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ReviewTileWidget(_reviewsController.reviewsList[index]);
-                  })
-                  : const Center(
-                child: CircularProgressIndicator(color: Colors.indigo,),
-              );
-            } )
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      rev = true;
+                    });
+                  },
+                  child: Text("Positive"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    // background (button) color
+                    onPrimary: Colors.white,
+                    minimumSize: Size(110, 50),
+                    shadowColor: Colors.grey,
+                    side: BorderSide(color: Colors.black, width: rev ? 3 : 0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            30)), // foreground (text) color
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      rev = false;
+                    });
+                  },
+                  child: Text("Negative"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    // background (button) color
+                    onPrimary: Colors.white,
+                    minimumSize: Size(110, 50),
+                    shadowColor: Colors.grey,
+                    side: BorderSide(color: Colors.black, width: rev ? 0 : 3),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            30)), // foreground (text) color
+                  ),
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: FutureBuilder(
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        List<Review> reviews = snapshot.data;
+                        return ListView.builder(
+                            itemCount: reviews.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ReviewTileWidget(reviews[index]);
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
+                    future: rev
+                        ? HotelsServices()
+                            .getPositiveHotelReviews(widget.hotel.hotelid!)
+                        : HotelsServices()
+                            .getNegativeHotelReviews(widget.hotel.hotelid!)),
+              ),
+            )
           ],
         ),
       )),

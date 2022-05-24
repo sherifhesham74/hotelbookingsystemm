@@ -56,6 +56,44 @@ class HotelsServices{
     }
   }
 
+  getPositiveHotelReviews(int hotelid)async{
+    final String path = 'http://$url/api/Reviews/Hotel/Happy?hotelid=$hotelid';
+
+    final response = await http.get(Uri.parse(path));
+    try{
+      if(response.statusCode == 200){
+        List<dynamic> body = jsonDecode(response.body);
+        List<Review> reviews = body.map((review) => Review.fromJson(review)).toList();
+        return reviews;
+      }
+      else{
+        return <Review>[];
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  getNegativeHotelReviews(int hotelid)async{
+    final String path = 'http://$url/api/Reviews/Hotel/NotHappy?hotelid=$hotelid';
+
+    final response = await http.get(Uri.parse(path));
+    try{
+      if(response.statusCode == 200){
+        List<dynamic> body = jsonDecode(response.body);
+        List<Review> reviews = body.map((review) => Review.fromJson(review)).toList();
+        return reviews;
+      }
+      else{
+        return <Review>[];
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
   addHotelReview(int clientid,int hotelid,String review)async{
     final String path = "http://$url/api/Reviews";
     Map<String,dynamic> body = {

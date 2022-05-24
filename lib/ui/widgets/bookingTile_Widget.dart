@@ -144,12 +144,14 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
   }
 
   Widget checkCancelation() {
+    print("here");
+    print(widget.reservation.startDate);
+    print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(
+        Duration(days: 90)));
+    print(DateTime.now());
     if (DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(
         Duration(days: 90)).isAfter(DateTime.now())) {
-      print('start date is');
-      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!));
-      print(widget.reservation.startDate);
-      print(DateFormat("yyyy-mm-dd").parse(widget.reservation.endDate!));
+
       return RaisedButton(
 
           color: Colors.red,

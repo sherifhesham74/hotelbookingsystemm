@@ -51,7 +51,7 @@ class _HotelReservationsScreenState extends State<HotelReservationsScreen> {
                           _reservationsController.hotelreservations.length,
                       itemBuilder: (BuildContext context, int index){
                         Reservation res = _reservationsController.hotelreservations[index];
-                        if(res.startDate == DateFormat("yyyy-mm-dd").parse(_selectedate.toString()).add(Duration(days: 90)).toString().substring(0, 10)){
+                        if(res.startDate == DateFormat("yyyy-mm-dd").parse(_selectedate.toString()).add(Duration(days: 120)).toString().substring(0, 10)){
                           return HotelReservationTile(reservation: res);
                          }
                          else{

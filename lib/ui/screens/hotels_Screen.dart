@@ -70,7 +70,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
         ? ListView.builder(
             itemCount: _hotelsController.hotelsList.length,
             itemBuilder: (BuildContext context, int index) {
-              return hotelTileWidget(context, _hotelsController.hotelsList[index]);
+              return hotelTileWidget(hotel :_hotelsController.hotelsList[index],);
             })
             : const Center(
         child: CircularProgressIndicator(color: Colors.indigo,),
