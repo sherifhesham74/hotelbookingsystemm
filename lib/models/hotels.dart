@@ -31,6 +31,8 @@ class Hotel {
         imageUrl: json['photo'],
         reviews: json['reviewHotels'],
         rooms: json['rooms'],
+        lat: json['lat'],
+        lng: json['lng'],
         locationCity: json['address']);
   }
 }

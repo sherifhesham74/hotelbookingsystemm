@@ -11,9 +11,11 @@ class Users {
   final List reviewClient;
   final List reviewHotels;
   final List rooms;
+  final double? lat;
+  final double? lng;
 
-  Users({
-      this.userid,
+  Users(
+      {this.userid,
       this.isdeleted,
       required this.role,
       required this.name,
@@ -24,6 +26,8 @@ class Users {
       required this.reservations,
       required this.reviewClient,
       required this.reviewHotels,
+      this.lat,
+      this.lng,
       required this.rooms});
 
   factory Users.fromJson(Map<String, dynamic> json) {

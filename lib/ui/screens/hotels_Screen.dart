@@ -14,38 +14,7 @@ class HotelsScreen extends StatefulWidget {
 
 class _HotelsScreenState extends State<HotelsScreen> {
   HotelsController _hotelsController = Get.find();
-  List<Hotel> hotels = [
-    Hotel(
-        name: 'Aswan Hotel',
-        imageUrl:
-            'https://th.bing.com/th/id/R.a587a778d25b5a5725d053d0b6d2dc54?rik=%2bhQil8NsVm%2bDPA&pid=ImgRaw&r=0',
-        price: 600,
-        reviewsNumber: 40,
-        stars: 4,
-        locationCity: 'Aswan',
-        lat: 30.033333,
-        lng: 31.233334),
-    Hotel(
-        name: 'Cairo Hotel',
-        imageUrl:
-            'https://th.bing.com/th/id/R.a587a778d25b5a5725d053d0b6d2dc54?rik=%2bhQil8NsVm%2bDPA&pid=ImgRaw&r=0',
-        price: 1000,
-        reviewsNumber: 40,
-        stars: 5,
-        locationCity: 'Cairo',
-        lat: 31.033333,
-        lng: 32.233334),
-    Hotel(
-        name: 'Luxor Hotel',
-        imageUrl:
-            'https://th.bing.com/th/id/R.a587a778d25b5a5725d053d0b6d2dc54?rik=%2bhQil8NsVm%2bDPA&pid=ImgRaw&r=0',
-        price: 700,
-        reviewsNumber: 50,
-        stars: 3,
-        locationCity: 'Luxor',
-        lat: 33.033333,
-        lng: 34.233334),
-  ];
+  List<Hotel> hotels = [];
   List<Hotel> dummyList = [];
 
   @override

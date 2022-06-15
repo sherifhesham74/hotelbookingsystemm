@@ -6,7 +6,7 @@ import 'package:hotelbooking/controllers/reviewsController.dart';
 import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:hotelbooking/services/ui_services.dart';
 import 'package:hotelbooking/ui/screens/reservation_Screen.dart';
-
+import 'dart:io';
 import '../../models/hotels.dart';
 import '../../models/reviews.dart';
 import '../widgets/reviewTile_Widget.dart';
@@ -37,8 +37,8 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              child: Image.network(
-                'https://th.bing.com/th/id/R.8d28fda3b2e5cfc1f6019fcbae29f6d0?rik=0LyWuVZk3lVqiw&pid=ImgRaw&r=0',
+              child: Image.file(
+                File.fromUri(Uri.parse(widget.hotel.imageUrl)),
                 fit: BoxFit.fill,
                 width: double.infinity,
               ),
@@ -64,24 +64,23 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 30),
                   ),
-
                 ],
               ),
             ),
-
             Container(
               width: double.infinity,
               height: 200,
               child: GoogleMap(
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(30.0000, 31.00000),
+                    target: LatLng(widget.hotel.lat!, widget.hotel.lng!),
                     zoom: 10,
                   ),
                   onMapCreated: (GoogleMapController googleMapController) {
                     setState(() {
                       markers.add(Marker(
                           markerId: MarkerId('1'),
-                          position: LatLng(30.0000, 31.00000)));
+                          position:
+                              LatLng(widget.hotel.lat!, widget.hotel.lng!)));
                     });
                   },
                   markers: markers),

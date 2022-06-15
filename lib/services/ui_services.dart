@@ -74,4 +74,15 @@ class UiServices{
     return selectedImage;
 
   }
+
+  chooseHotelImage()async{
+    final ImagePicker _picker = ImagePicker();
+    String selectedImage = '';
+    XFile? galleryFile = await _picker.pickImage(source: ImageSource.gallery);
+    selectedImage = galleryFile!.path;
+    print('ui services');
+    print(selectedImage);
+    return selectedImage;
+
+  }
 }

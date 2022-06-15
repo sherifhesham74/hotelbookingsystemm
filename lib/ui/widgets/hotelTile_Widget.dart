@@ -77,7 +77,21 @@ class _hotelTileWidgetState extends State<hotelTileWidget> {
                                     fontSize: 20),
                               ));
                         } else {
-                          return CircularProgressIndicator();
+                          return Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.7),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      topLeft: Radius.circular(10))),
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                "No Rate Available",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ));
                         }
                       }),
 

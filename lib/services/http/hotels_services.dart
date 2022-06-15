@@ -5,6 +5,7 @@ import 'package:hotelbooking/models/hotels.dart';
 import 'package:hotelbooking/models/reservations.dart';
 import 'package:hotelbooking/models/reviews.dart';
 import 'package:hotelbooking/models/rooms.dart';
+import 'package:hotelbooking/models/users.dart';
 import 'package:hotelbooking/services/http/clients_services.dart';
 import 'package:hotelbooking/services/http/rooms_services.dart';
 import 'package:http/http.dart' as http;
@@ -141,6 +142,43 @@ class HotelsServices{
       return reservations;
     }
 
+  }
+
+
+  getAllHotels()async{
+    final String path = 'http://$url/api/Users/Hotel';
+    http.Response response = await http.get(Uri.parse(path));
+    if(response.statusCode == 200){
+      List<dynamic> body = jsonDecode(response.body);
+      List<Hotel> hotels = body.map((hotel) => Hotel.fromJson(hotel)).toList();
+      return hotels;
+
+    }
+  }
+
+  addHotel(Users user) async {
+    final String path = "http://$url/api/Users";
+    var json = {
+      "role": "${user.role}",
+      "name": "${user.name}",
+      "password": "${user.password}",
+      "email": '${user.email}',
+      "photo": '${user.photo}',
+      "address": "${user.address}",
+      "phone" : "0",
+      "lat" : "${user.lat}",
+      "lng" : "${user.lng}"
+    };
+    var body = jsonEncode(json);
+    print(body);
+    try {
+      http.Response response = await http.post(Uri.parse(path),
+          body: body, headers: {"Content-Type": "application/json"});
+      print(response.statusCode);
+      var responseJson = jsonDecode(response.body);
+    } catch (e) {
+      print(e);
+    }
   }
 
 }

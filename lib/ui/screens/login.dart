@@ -8,6 +8,7 @@ import 'package:hotelbooking/ui/screens/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/shared_prefs.dart';
+import 'admin/adminHome_Screen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _LoginState extends State<Login> {
       Get.off(HotelReservationsScreen());
     }
     else{
-      print('here');
+     Get.off(AdminHomeScreen());
     }
   }
   @override

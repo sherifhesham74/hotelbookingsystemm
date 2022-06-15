@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hotelbooking/controllers/usersController.dart';
 import 'package:hotelbooking/services/shared_prefs.dart';
+import 'package:hotelbooking/ui/screens/admin/adminHome_Screen.dart';
 import 'package:hotelbooking/ui/screens/cities_Screen.dart';
 import 'package:hotelbooking/ui/screens/home_Screen.dart';
 import 'package:hotelbooking/ui/screens/hotelOwner/reservations_Screen.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
          return HotelReservationsScreen();
        }
        else{
-         return Login();
+         return AdminHomeScreen();
        }
      }
      else{
