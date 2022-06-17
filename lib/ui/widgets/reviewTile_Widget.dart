@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/models/reviews.dart';
+import 'package:hotelbooking/services/http/clients_services.dart';
 
 
 Widget ReviewTileWidget(Review review){
-
+ print(review.username);
   return Container(
     decoration: BoxDecoration(
       color: review.happiness == "happy" ? Colors.green : Colors.red,
@@ -14,7 +15,19 @@ Widget ReviewTileWidget(Review review){
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(review.username!, style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white,fontSize: 20),),
+        FutureBuilder(
+          future: ClientsServices().getuserNamebyId(review.userid!),
+          builder: (BuildContext context, AsyncSnapshot snapshot){
+            if(snapshot.hasData){
+              String name = snapshot.data;
+              return Text(name, style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white,fontSize: 20),);
+            }
+            else{
+            return Text('', style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white,fontSize: 20),);
+            }
+          },
+        ),
+
         const Divider(),
         Text(review.description, style: TextStyle(color: Colors.white,fontSize: 21,fontWeight: FontWeight.bold)),
       ],

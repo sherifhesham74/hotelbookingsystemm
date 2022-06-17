@@ -6,7 +6,7 @@ class Review{
   final int? userid;
 
   Review({
-    this.username = 'ahmed',
+    this.username,
     this.hotelid,
     this.userid,
     required this.description,

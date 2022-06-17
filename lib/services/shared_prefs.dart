@@ -33,6 +33,8 @@ class SharedPrefs{
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setBool('login', false);
     await pref.setString('role', '');
+    await pref.setString('name','');
+    await pref.setInt('id', 0);
   }
 
   Future<int> getClientId()async{

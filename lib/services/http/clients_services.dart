@@ -11,7 +11,7 @@ import '../../models/users.dart';
 
 class ClientsServices {
   UsersController _usersController = Get.find();
-  final String mainurl = "192.168.137.42:45455";
+  final String mainurl = "192.168.1.10:45455";
 
   clinetsRegister(Users user) async {
     final String url = "http://$mainurl/api/Users";
@@ -64,6 +64,7 @@ class ClientsServices {
             body[0]['isdeleted'],
             body[0]['address'],
           );
+
           return body[0]['role'];
         }
       }

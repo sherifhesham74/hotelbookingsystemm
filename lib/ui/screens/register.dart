@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelbooking/controllers/usersController.dart';
 
+import 'login.dart';
+
 class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
@@ -196,6 +198,7 @@ class _RegisterState extends State<Register> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
+                              Get.to(Login());
                             }
                             else{
                               const snackBar = SnackBar(

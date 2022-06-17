@@ -3,6 +3,8 @@ import 'package:hotelbooking/services/http/hotels_services.dart';
 import 'package:get/get.dart';
 import 'package:hotelbooking/ui/screens/bookings_Screen.dart';
 
+import 'home_Screen.dart';
+
 class HotelReviewScreen extends StatefulWidget {
   const HotelReviewScreen({Key? key,required this.clientid,required this.hotelid}) : super(key: key);
   final int clientid;
@@ -69,7 +71,7 @@ class _HotelReviewScreenState extends State<HotelReviewScreen> {
                            widget.clientid, widget.hotelid,
                            reviewController.text);
                        if (status == 'done') {
-
+                         print(widget.clientid);
                          const snackBar = SnackBar(
                            content: Text(
                              'Review Added',
@@ -80,6 +82,7 @@ class _HotelReviewScreenState extends State<HotelReviewScreen> {
                          ScaffoldMessenger.of(context)
                              .showSnackBar(snackBar);
                        }
+                       Get.to(HomeScreen());
                      }
                      else{
                        const snackBar = SnackBar(
