@@ -144,13 +144,7 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
   }
 
   Widget checkCancelation() {
-    print("here");
-    print(widget.reservation.startDate);
-    print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(
-        Duration(days: 90)));
-    print(DateTime.now());
-    if (DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!).add(
-        Duration(days: 90)).isAfter(DateTime.now())) {
+
 
       return RaisedButton(
 
@@ -163,10 +157,5 @@ class _BookingTileWidgetState extends State<BookingTileWidget> {
             _reservationsController.cancelReservation(
                 widget.reservation.reservationid!);
           });
-    }
-    else {
-      return const Text(
-        "no cancelation", style: TextStyle(color: Colors.white),);
-    }
   }
 }
