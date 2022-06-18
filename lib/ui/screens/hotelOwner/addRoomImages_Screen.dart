@@ -184,7 +184,7 @@ class _AddRoomImagesScreenState extends State<AddRoomImagesScreen> {
                       borderRadius:
                       BorderRadius.all(Radius.circular(15)),
                       child: Image.file(
-                        File.fromUri(Uri.parse(pathImage1)),
+                        File.fromUri(Uri.parse(pathImage3)),
                         width: 400,
                         height: 150,
                         fit: BoxFit.fill,
@@ -192,8 +192,8 @@ class _AddRoomImagesScreenState extends State<AddRoomImagesScreen> {
                     ) : ClipRRect(
                       borderRadius:
                       BorderRadius.all(Radius.circular(15)),
-                      child: Image.network(
-                        "https://th.bing.com/th/id/OIP.1tmbPfHMYVZGp-dgPvjm_wHaEJ?pid=ImgDet&rs=1",
+                      child: Image.asset(
+                        "assets/images/blank.jpg",
                         width: 400,
                         height: 150,
                         fit: BoxFit.fill,

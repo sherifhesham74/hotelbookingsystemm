@@ -79,22 +79,7 @@ class _RoomTileWidgetState extends State<RoomTileWidget> {
                   const SizedBox(
                     height: 15,
                   ),
-                  RichText(
-                      text: TextSpan(children: [
-                        WidgetSpan(
-                            child: Icon(
-                              Icons.person,
-                              size: 14,
-                              color: Colors.indigo,
-                            )),
-                        TextSpan(
-                            text: '${widget.room.peopleCapacity} People',
-                            style: TextStyle(color: Colors.black87,
-                                fontSize: 11))
-                      ])),
-                  const SizedBox(
-                    height: 7,
-                  ),
+
                   Text(
                     'EGP ${widget.room.cost}',
                     style: TextStyle(

@@ -32,7 +32,7 @@ Widget cityTileWidget(BuildContext context,City city) {
           ClipRRect(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: Image.network(
+            child: Image.asset(
               city.urlImage,
               fit: BoxFit.fitWidth,
             ),

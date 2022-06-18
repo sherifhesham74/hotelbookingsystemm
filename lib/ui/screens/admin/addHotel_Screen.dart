@@ -294,7 +294,7 @@ class _AddHotelScreenState extends State<AddHotelScreen> {
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
+                          if (_formkey.currentState!.validate() && pathImage1 != "") {
                             Users user = Users(role: "hotel",
                                 name: nameController.text,
                                 password: passwordController.text,
@@ -308,6 +308,15 @@ class _AddHotelScreenState extends State<AddHotelScreen> {
                                 reviewHotels: [],
                                 rooms: []);
                             await HotelsServices().addHotel(user);
+                            const snackBar = SnackBar(
+                              content: Text(
+                                'Hotel Added Successfully',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.green,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
                         },
                       ),

@@ -135,7 +135,7 @@ class _HotelReservationTileState extends State<HotelReservationTile> {
   Widget checkCancelation() {
     if (DateFormat("yyyy-mm-dd")
         .parse(widget.reservation.startDate!)
-        .add(Duration(days: 120))
+        .add(Duration(days: 150))
         .isAfter(DateTime.now())) {
       print('start date is');
       print(DateFormat("yyyy-mm-dd").parse(widget.reservation.startDate!));

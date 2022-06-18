@@ -29,9 +29,9 @@ class _hotelTileWidgetState extends State<hotelTileWidget> {
         Get.to(HotelDetailsScreen(hotel: widget.hotel));
       },
       child: Container(
-        margin: EdgeInsets.all(40),
+        margin: EdgeInsets.all(20),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(35),
             boxShadow: const [
               BoxShadow(
                   color: Colors.grey,
@@ -50,7 +50,8 @@ class _hotelTileWidgetState extends State<hotelTileWidget> {
                     topRight: Radius.circular(20)),
                 child: Image.file(
                   File.fromUri(Uri.parse(widget.hotel.imageUrl)),
-                  fit: BoxFit.fill,
+
+
                 ),
               ),
               Row(

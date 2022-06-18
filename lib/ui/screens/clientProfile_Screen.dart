@@ -74,8 +74,8 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                             ),
                           ) : ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
-                            child: Image.network(
-                              "https://irisvision.com/wp-content/uploads/2019/01/no-profile-1-1024x1024.png",
+                            child: Image.asset(
+                              "assets/images/profile.png",
                               width: 100,
                               height: 100,
                               fit: BoxFit.fill,
